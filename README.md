@@ -180,7 +180,7 @@ def draw_debug_info(image, binary_warped, left_fitx, right_fitx, ploty, curv, di
 
 ### Pipeline (video)
 
-Here's a [link to my video result](https://drive.google.com/open?id=1v1AIMhnTbxDasNkMAj7A_kz2SC03NmlN)
+Here's a [link to my video result](https://drive.google.com/file/d/1v1AIMhnTbxDasNkMAj7A_kz2SC03NmlN/view?usp=sharing)
 
 ---
 
