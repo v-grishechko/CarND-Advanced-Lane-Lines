@@ -50,18 +50,34 @@ I used method from _Camera calibration_ step to correct image. Example of a dist
 
 #### 2. Create threshold binary image.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps in  `src/pipelines.ipynb` at fourth cell).  Here's an example of my output for this step.  (note: also there examples of other sobel operators)
+I used the color threshold, because this method is the most effective than others to generate a binary image (thresholding steps in  `src/pipelines.ipynb` at fourth cell).  Here's an example of my output for this step.  (note: also there examples of other sobel operators)
 
 ![alt text][image3]
 
 Choosed method for creation binary image:
 
 ```python
-def sobel_comb(img, ksize=3, thresh=(20, 100), thresh_color=(0, 255)):
-    sobel_x = sobel(img, orient='x', sobel_kernel=ksize, thresh=thresh)
-    sobel_s = sobel_hls_select(img, thresh=thresh_color)
-    combined_binary = np.zeros_like(sobel_x)
-    combined_binary[(sobel_s == 1) | (sobel_x == 1)] = 1
+def select_yellow(image):
+    hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+    lower = np.array([20, 60, 60])
+    upper = np.array([38, 174, 250])
+    mask = cv2.inRange(hsv, lower, upper)
+    return mask
+
+
+def select_white(image):
+    lower = np.array([202, 202, 202])
+    upper = np.array([255, 255, 255])
+    mask = cv2.inRange(image, lower, upper)
+    return mask
+
+def select_yellow_and_white(image):
+    yellow = select_yellow(image)
+    white = select_white(image)
+
+    combined_binary = np.zeros_like(yellow)
+    combined_binary[(yellow >= 1) | (white >= 1)] = 1
+
     return combined_binary
 
 ```
